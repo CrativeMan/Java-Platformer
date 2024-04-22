@@ -1,9 +1,8 @@
 package animation;
 
-import javax.imageio.ImageIO;
+import utilz.LoadSave;
+
 import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.io.InputStream;
 
 public class PlayerAnimations {
 
@@ -11,7 +10,7 @@ public class PlayerAnimations {
     private BufferedImage[][] animations;
 
     public PlayerAnimations(){
-        importImg();
+        playerSpriteAtlas = LoadSave.GetSpriteAtlas(LoadSave.PLAYER_ATLAS);
         loadPlayerIdleAnimations();
     }
 
@@ -25,22 +24,7 @@ public class PlayerAnimations {
         }
     }
 
-    private void importImg() {
-        InputStream is = getClass().getResourceAsStream("/res/player_sprites.png");
-        try {
-            playerSpriteAtlas = ImageIO.read(is);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        } finally {
-            try {
-                is.close();
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-        }
-    }
-
-    public BufferedImage[][] getanimations() {
+    public BufferedImage[][] getAnimations() {
         return animations;
     }
 }
