@@ -16,7 +16,7 @@ public class Player extends Entity {
 
     //* Jumping and gravity
     private float airSpeed = 0f;
-    private float gravity = 0.037f * Game.SCALE;
+    private float gravity = 0.02f * Game.SCALE;
     private float jumpSpeed = -2.25f * Game.SCALE;
     private float fallSpeedAfterCollision = 0.5f * Game.SCALE;
     private boolean inAir = false;
@@ -55,21 +55,26 @@ public class Player extends Entity {
         if(right)
             xSpeed += playerSpeed;
         if(!inAir) {
-            if(!_isEntityOnFloor(hitbox, lvlData))
+            if(!_isEntityOnFloor(hitbox, lvlData)) {
                 inAir = true;
+                animator.setInAir(true);
+            }
         }
 
         if(inAir){
             if(_canMoveHere(hitbox.x, hitbox.y+airSpeed, hitbox.width, hitbox.height, lvlData)){
                 hitbox.y += airSpeed;
+                animator.setAirSpeed(airSpeed += gravity);
                 airSpeed += gravity;
                 updateXPos(xSpeed);
             } else {
                 hitbox.y = _getEntityYPosHitFloorCeiling(hitbox, airSpeed);
                 if(airSpeed > 0)
                     resetInAir();
-                else
+                else {
+                    animator.setAirSpeed(fallSpeedAfterCollision);
                     airSpeed = fallSpeedAfterCollision;
+                }
                 updateXPos(xSpeed);
             }
         } else
@@ -82,6 +87,8 @@ public class Player extends Entity {
         if(inAir)
             return;
         inAir = true;
+        animator.setInAir(true);
+        animator.setAirSpeed(jumpSpeed);
         airSpeed = jumpSpeed;
     }
 
@@ -103,19 +110,14 @@ public class Player extends Entity {
 
     private void resetInAir() {
         inAir = false;
+        animator.setInAir(false);
+        animator.setAirSpeed(0);
         airSpeed = 0;
     }
 
     // Getter and setter
-    public void setRight(boolean right) {
-        this.right = right;
-    }
-    public void setLeft(boolean left) {
-        this.left = left;
-    }
-    public void setJump(boolean jump) {
-        this.jump = jump;
-    }
-
+    public void setRight(boolean right) {this.right = right;}
+    public void setLeft(boolean left) {this.left = left;}
+    public void setJump(boolean jump) {this.jump = jump;}
     public PlayerAnimations getAnimator(){return animator;}
 }

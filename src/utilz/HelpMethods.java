@@ -7,12 +7,12 @@ import java.awt.geom.Rectangle2D;
 public class HelpMethods {
     /**
      * Checks if an entity can move to a given pixel position in the current level
-     * @param x - x of target position
-     * @param y - y of target position
-     * @param width - width of entity
-     * @param height - height of entity
-     * @param lvlData - lvlData of the current level
-     * @return - returns false if any of the checks fail
+     * @param x x of target position
+     * @param y y of target position
+     * @param width width of entity
+     * @param height height of entity
+     * @param lvlData lvlData of the current level
+     * @return returns false if any of the checks fail
      */
     public static boolean _canMoveHere(float x, float y, float width, float height, int[][] lvlData) {
         if(!IsSolid(x,y, lvlData))

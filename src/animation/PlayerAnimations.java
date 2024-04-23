@@ -12,9 +12,9 @@ public class PlayerAnimations extends Animator{
     BufferedImage playerSpriteAtlas;
     private BufferedImage[][] animations;
     private int aniTick, aniIndex;
+    private float airSpeed = 0f;
     private int playerAction = IDLE;
-    private boolean moving = false, attacking = false;
-
+    private boolean moving = false, attacking = false, inAir = false;
 
     public PlayerAnimations(){
         playerSpriteAtlas = LoadSave.GetSpriteAtlas(LoadSave.PLAYER_ATLAS);
@@ -43,6 +43,12 @@ public class PlayerAnimations extends Animator{
             playerAction = RUNNING;
         else
             playerAction = IDLE;
+        if(inAir) {
+            if(airSpeed < 0)
+                playerAction = JUMPING;
+            else
+                playerAction = FALLING;
+        }
         if(attacking)
             playerAction = ATTACK_1;
 
@@ -108,5 +114,11 @@ public class PlayerAnimations extends Animator{
     }
     public void setPlayerSpriteAtlas(BufferedImage playerSpriteAtlas) {
         this.playerSpriteAtlas = playerSpriteAtlas;
+    }
+    public void setInAir(boolean inAir) {
+        this.inAir = inAir;
+    }
+    public void setAirSpeed(float airSpeed) {
+        this.airSpeed = airSpeed;
     }
 }
