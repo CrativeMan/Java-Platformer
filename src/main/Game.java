@@ -7,8 +7,8 @@ import java.awt.*;
 
 public class Game implements Runnable{
 
-    private GameFrame gameFrame;
-    private GamePanel gamePanel;
+    private final GameFrame gameFrame;
+    private final GamePanel gamePanel;
     private Thread gameThread;
     private Player player;
     private LevelManager levelManager;
@@ -37,8 +37,9 @@ public class Game implements Runnable{
     }
 
     private void initClasses() {
-        player = new Player(200,200, (int)(64*SCALE), (int)(40*SCALE));
         levelManager = new LevelManager(this);
+        player = new Player(200,200, (int)(64*SCALE), (int)(40*SCALE));
+        player.loadLevelData(levelManager.getCurrentLevel().getLevelData());
     }
 
     private void startGameLoop(){
