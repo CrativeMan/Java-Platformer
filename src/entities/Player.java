@@ -1,6 +1,7 @@
 package entities;
 
 import animation.PlayerAnimations;
+import gamestates.GameState;
 import main.Game;
 
 import java.awt.*;
@@ -9,7 +10,7 @@ import static utilz.HelpMethods.*;
 
 public class Player extends Entity {
     private final PlayerAnimations animator;
-    private boolean left, up, right, down, jump;
+    private boolean left, right, jump, attacking;
     private int[][] lvlData;
     private float xDrawOffset = 21 * Game.SCALE;
     private float yDrawOffset = 4 * Game.SCALE;
@@ -21,6 +22,7 @@ public class Player extends Entity {
     private float fallSpeedAfterCollision = 0.5f * Game.SCALE;
     private boolean inAir = false;
 
+    
 
     public Player(float x, float y, int width, int height) {
         super(x, y, width, height);
@@ -105,7 +107,7 @@ public class Player extends Entity {
     }
 
     public void resetDirBooleans() {
-        left = right = down = up = false;
+        left = right = false;
     }
 
     private void resetInAir() {
@@ -115,9 +117,16 @@ public class Player extends Entity {
         airSpeed = 0;
     }
 
+    public void switchToMenu() {
+        resetDirBooleans();
+        setJump(false);
+        GameState.state = GameState.MENU;
+    }
+
     // Getter and setter
     public void setRight(boolean right) {this.right = right;}
     public void setLeft(boolean left) {this.left = left;}
     public void setJump(boolean jump) {this.jump = jump;}
+    public void setAttacking(boolean attacking) {this.attacking = attacking;}
     public PlayerAnimations getAnimator(){return animator;}
 }
